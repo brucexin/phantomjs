@@ -232,6 +232,22 @@ public:
      */
     QString focusedFrameName() const;
 
+    /**
+     * Lookup unique id for reply.
+     *
+     * @brief getInternalIdFromReply
+     * @return int
+     */
+    int getInternalIdFromReply(QNetworkReply *reply);
+
+    /**
+     * Emit unsupportedContentReceived event.
+     *
+     * @brief emitUnsupportedContentReceived
+     * @return void
+     */
+    void emitUnsupportedContentReceived(QVariantMap data);
+
 public slots:
     void openUrl(const QString &address, const QVariant &op, const QVariantMap &settings);
     void release();
