@@ -459,6 +459,15 @@ public slots:
      */
     void stop();
 
+    /**
+     * saveUnsupportedContent (if the page is loading)
+     *
+     * NOTE: This method saveUnsupportedContent to file.
+     *
+     * @brief stop
+     */
+    void saveUnsupportedContent(const QString &fileName, const QVariant &arg1);
+
 signals:
     void initialized();
     void loadStarted();
@@ -470,6 +479,7 @@ signals:
     void resourceReceived(const QVariant &resource);
     void resourceError(const QVariant &errorData);
     void resourceTimeout(const QVariant &errorData);
+    void unsupportedContentReceived(const QVariant &resource);
     void urlChanged(const QUrl &url);
     void navigationRequested(const QUrl &url, const QString &navigationType, bool navigationLocked, bool isMainFrame);
     void rawPageCreated(QObject *page);
@@ -479,6 +489,7 @@ private slots:
     void finish(bool ok);
     void setupFrame(QWebFrame *frame = NULL);
     void updateLoadingProgress(int progress);
+    void handleUnsupportedContent(QNetworkReply *reply);
 
 private:
     QImage renderImage();
@@ -513,6 +524,10 @@ private:
     QPoint m_mousePos;
     bool m_ownsPages;
     int m_loadingProgress;
+
+    QHash<QNetworkReply*, int> m_uc_ids;
+    QHash<int, QNetworkReply*> m_uc_replies;
+    int m_uc_idCounter;
 
     friend class Phantom;
     friend class CustomPage;
